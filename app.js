@@ -148,9 +148,14 @@ function clearTasks(){
         taskList.removeChild(taskList.firstChild);
     }
     // https://jsperf.com/innerhtml-vs-removechild
-
+    // clear from LS
+    clearTasksFromLocalStorage();
 }
 
+// clear tasks from ls
+function clearTasksFromLocalStorage(){
+    localStorage.clear();
+}
 // Filter Tasks
 function filterTasks(e) {
     const text = e.target.value.toLowerCase();
