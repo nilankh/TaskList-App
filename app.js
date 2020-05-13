@@ -10,6 +10,8 @@ loadEventListeners();
 
 // Load all even listeners
 function loadEventListeners() {
+    // DOM load event
+    document.addEventListener('DOMContentLoaded', getTasks);
     // add task event
     form.addEventListener('submit', addTask);
     // Remove task Event
@@ -20,6 +22,37 @@ function loadEventListeners() {
     filter.addEventListener('keyup', filterTasks);
 
 
+}
+
+// Get Tasks from LS
+function getTasks(){
+    let tasks;
+    if(localStorage.getItem('tasks') === null) {
+        tasks = [];
+    }else{
+        //Local storage can only store strins and we have to parse it by using json stringify
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+
+    tasks.forEach(function(task){
+        // Create li element
+        const li = document.createElement('li');
+        // Addd Class
+        li.className = 'collection-item';
+        // Create text node and append to li
+        li.appendChild(document.createTextNode(task));
+        // create new link element
+        const link = document.createElement('a');
+        // Add Class
+        link.className = 'delete-item secondary-content';
+        // Add icon html
+        link.innerHTML = '<i class = "fa fa-remove"></i>';
+        // append the link to li
+        li.appendChild(link);
+
+        // append li to ul
+        taskList.appendChild(li);
+    });
 }
 
 // Add Task
@@ -46,12 +79,30 @@ function addTask(e){
     // append li to ul
     taskList.appendChild(li);
 
+    // Store in LS
+    storeTaskInLocalStorage(taskInput.value);
+
+
     // console.log(li);
     // Clear input
     taskInput.value = '';
     
     e.preventDefault();
 }
+
+// Store Task
+function storeTaskInLocalStorage(task) {
+    let tasks;
+    if(localStorage.getItem('tasks') === null) {
+        tasks = [];
+    }else{
+        //Local storage can only store strins and we have to parse it by using json stringify
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+    tasks.push(task);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
 
 // Remove Task
 function removeTask(e){
