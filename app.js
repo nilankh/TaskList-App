@@ -60,7 +60,17 @@ function removeTask(e){
 }
 
 // clear tasks
+// 1way to clearing tasks
+// function clearTasks(){
+//     taskList.innerHTML = '';
+// }
 
+// 2nd ways clearing tasks
 function clearTasks(){
-    taskList.innerHTML = '';
+    // Faster
+    while(taskList.firstChild) {
+        taskList.removeChild(taskList.firstChild);
+    }
+    // https://jsperf.com/innerhtml-vs-removechild
+
 }
